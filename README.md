@@ -1,13 +1,10 @@
 # APSecurity
-
 Home security system running on a Raspberry Pi.
 
 ## Introduction
-
 AP Security is a ready to go security system. It's aimed at simple utilisations such as monitoring one room. 
 
 ### Prerequisites
-
 - Raspberry Pi running RPi OS
 - Infrared Motion Sensor
     - Jumper cables to wire the sensor to the RPi.
@@ -23,7 +20,6 @@ AP Security is a ready to go security system. It's aimed at simple utilisations 
     - Ex.: "https://smsapi.free-mobile.fr/sendmsg?user=&pass=&msg="
 
 ## Installation
-
 ### Motion Sensor
 #### Wire the motion sensor to the RPi:
 > - Wire the motion sensor's output pin to any of your RPi's GPIO pin.
@@ -40,5 +36,13 @@ Run `apsec_config.py` from the `config` directory.
 ### Run the program
 Run `APSecurity.py` from the parent directory `APSecurity`.
 > Follow the instructions.
-> ![APSecurity](/screenshots/apsec_run.png
+> ![APSecurity](/screenshots/apsec_run.png)
 
+## Errors handling
+### You didn't run the `apsec_config.py` script
+> This error will appear if you try to run `APSecurity.py`.
+> ![APSecurity configuration error](/screenshots/err_notConfig.png)
+
+__The obvious fix is to run `apsec_config.py` from the `config` directory.__
+
+### You're r
