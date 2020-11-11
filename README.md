@@ -29,6 +29,12 @@ AP Security is a ready to go security system. It's aimed at simple utilisations 
 > - Wire the motion sensor's output pin to any of your RPi's GPIO pin.
 >   - BOARD configuration is used in the program.
 >   - For instance if you choose GPIO17, you'll have to enter 11 as the pin's number when running `config.py`
-> Wire the anode (+) to 5Volts.
-> Wire the cathode (-) to GND.
+> - Wire the anode (+) to 5Volts.
+> - Wire the cathode (-) to GND.
+
+### Configuration
+Run `apsec_config.py` from the `config` directory.
+> Follow the instructions.
+> [!APSecurity Config](/screenshots/apsec_config.png)
+
 
