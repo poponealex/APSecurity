@@ -18,6 +18,7 @@ AP Security is a ready to go security system. It's aimed at simple utilisations 
 - Text Message URL
     - Many ISP and MSP provide them, for instance FREE MOBILE FRANCE does.
     - Ex.: "https://smsapi.free-mobile.fr/sendmsg?user=&pass=&msg="
+    - __THE URL HAS TO BE ENTERED WITH THE GET ATTRIBUTE FOR THE MESSAGE AT THE END OF THE LINK, please refer to the previous exemple__
 
 ## Installation
 ### Motion Sensor
