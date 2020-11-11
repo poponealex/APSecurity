@@ -60,6 +60,7 @@ __The obvious fix is to run `APSecurity.py` from the `APSecurity` directory.__
 ## LOGS
 Logs are automatically generated to the `logs` folder that will be created after the first initialisation of the program.
 > A log exemple:
+
 > ![APSecurity log](/screenshots/ex_log.png) 
 
 # ENJOY
