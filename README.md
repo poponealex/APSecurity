@@ -56,3 +56,10 @@ __The obvious fix is to run `config.py` from the `apsec_config` directory.__
 > ![APSecurity wrong dir config](/screenshots/err_dir_apsec.png)
 
 __The obvious fix is to run `APSecurity.py` from the `APSecurity` directory.__
+
+## LOGS
+Logs are automatically generated to the `logs` folder that will be created after the first initialisation of the program.
+> A log exemple:
+> ![APSecurity log](/screenshots/ex_log.png) 
+
+# ENJOY
