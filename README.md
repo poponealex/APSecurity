@@ -18,14 +18,14 @@ AP Security is a ready to go security system. It's aimed at simple utilisations 
 - Text Message URL
     - Many ISP and MSP provide them, for instance FREE MOBILE FRANCE does.
     - Ex.: "https://smsapi.free-mobile.fr/sendmsg?user=&pass=&msg="
-    - __THE URL HAS TO BE ENTERED WITH THE GET ATTRIBUTE FOR THE MESSAGE AT THE END OF THE LINK, please refer to the previous exemple__
+    - __THE URL HAS TO BE ENTERED WITH THE GET ATTRIBUTE FOR THE MESSAGE AT THE END OF THE LINK, please refer to the previous exemple.__
 
 ## Installation
 ### Motion Sensor
 #### Wire the motion sensor to the RPi:
 > - Wire the motion sensor's output pin to any of your RPi's GPIO pin.
 >   - BOARD configuration is used in the program.
->   - For instance if you choose GPIO17, you'll have to enter 11 as the pin's number when running `config.py`
+>   - For instance if you choose GPIO17, you'll have to enter 11 as the pin's number when running `config.py`.
 > - Wire the anode (+) to 5Volts.
 > - Wire the cathode (-) to GND.
 
