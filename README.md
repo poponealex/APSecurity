@@ -35,6 +35,10 @@ AP Security is a ready to go security system. It's aimed at simple utilisations 
 ### Configuration
 Run `apsec_config.py` from the `config` directory.
 > Follow the instructions.
-> [!APSecurity Config](/screenshots/apsec_config.png)
+> ![APSecurity Config](/screenshots/apsec_config.png)
 
+### Run the program
+Run `APSecurity.py` from the parent directory `APSecurity`.
+> Follow the instructions.
+> ![APSecurity](/screenshots/apsec_run.png
 
