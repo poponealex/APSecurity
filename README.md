@@ -24,4 +24,11 @@ AP Security is a ready to go security system. It's aimed at simple utilisations 
 
 ## Installation
 
-###Motion 
+### Motion Sensor
+#### Wire the motion sensor to the RPi:
+> - Wire the motion sensor's output pin to any of your RPi's GPIO pin.
+>   - BOARD configuration is used in the program.
+>   - For instance if you choose GPIO17, you'll have to enter 11 as the pin's number when running `config.py`
+> Wire the anode (+) to 5Volts.
+> Wire the cathode (-) to GND.
+
