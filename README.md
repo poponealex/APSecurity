@@ -65,3 +65,5 @@ Logs are automatically generated to the `logs` folder that will be created after
 > ![APSecurity log](/screenshots/ex_log.png) 
 
 # ENJOY
+
+_Thanks @laowantong for the help!_
