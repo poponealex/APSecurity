@@ -29,7 +29,7 @@ AP Security is a ready to go security system. It's aimed at simple utilisations 
 > - Wire the cathode (-) to GND.
 
 ### Configuration
-Run `apsec_config.py` from the `config` directory.
+Run `config.py` from the `apsec_config` directory.
 > Follow the instructions.
 > ![APSecurity Config](/screenshots/apsec_config.png)
 
@@ -39,10 +39,20 @@ Run `APSecurity.py` from the parent directory `APSecurity`.
 > ![APSecurity](/screenshots/apsec_run.png)
 
 ## Errors handling
-### You didn't run the `apsec_config.py` script
-> This error will appear if you try to run `APSecurity.py`.
+### You didn't run the `config.py` script
+> This error will be raised if you try to run `APSecurity.py`.
 > ![APSecurity configuration error](/screenshots/err_notConfig.png)
 
-__The obvious fix is to run `apsec_config.py` from the `config` directory.__
+__The obvious fix is to run `config.py` (from the `apsec_config` directory).__
 
-### You're r
+### You're trying to run `config.py` from somehere else than `/APSecurity/apsec_config`
+> This error will be raised if you try to run `config.py` from somehere else than `/APSecurity/apsec_config`.
+> ![APSecurity wrong dir config](/screenshots/err_dir_config.png)
+
+__The obvious fix is to run `config.py` from the `apsec_config` directory.__
+
+### You're trying to run `APSecurity.py` from somehere else than the `APSecurity` directory
+> This error will be raised if you try to run `APSecurity.py` from somehere else than `/APSecurity`.
+> ![APSecurity wrong dir config](/screenshots/err_dir_apsec.png)
+
+__The obvious fix is to run `APSecurity.py` from the `APSecurity` directory.__
