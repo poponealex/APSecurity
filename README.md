@@ -41,7 +41,7 @@ Run `APSecurity.py` from the parent directory `APSecurity`.
 
 ## Errors handling
 ### You didn't run the `config.py` script
-> This error will be raised if you try to run `APSecurity.py`.
+> This error will be raised if you try to run `APSecurity.py` without running `config.py` first.
 > ![APSecurity configuration error](/screenshots/err_notConfig.png)
 
 __The obvious fix is to run `config.py` (from the `apsec_config` directory).__
