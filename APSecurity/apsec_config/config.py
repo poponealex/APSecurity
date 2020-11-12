@@ -32,25 +32,29 @@ class Color:
 
 def set_var_input_validation(
     prompt="",
-    predicate=lambda _: True,
+    is_valid=lambda _: True,
     failure_description="Value is illegal",
 ):
     """Validating user input by predicate.
 
     Vars:
         - prompt: message displayed when prompting for user input.
-        - predicate: lambda function to verify a condition.
-        - failure_description: message displayed when predicate's condition is not met.
+        - is_valid: lambda function to verify a condition.
+        - failure_description: message displayed when is_valid()'s condition is not met.
 
     Returns:
-        - The value entered by the user if predicate's condition is met and after confirmation by the user.
-        - If the predicate fails failure_description is displayed
+        - The value entered by the user if is_valid's condition is met and after confirmation by the user.
+        - If the is_valid condition fails failure_description is displayed
         - If literal_eval fails an error message containing the raised exception.
     """
     while True:
+        value = input(f"{Color.INFORMATION}{prompt}{Color.END}\n")
         try:
-            value = literal_eval(input(f"{Color.INFORMATION}{prompt}{Color.END}\n"))
-            if predicate(value):
+            value = literal_eval(value)
+        except ValueError:
+            pass
+        try:
+            if is_valid(value):
                 a = literal_eval(
                     input(
                         f"{Color.INFORMATION}Is this correct: {value} ? enter 1 to confirm, 0 to retry{Color.END}\n"
@@ -75,22 +79,22 @@ var = {
     "PROGRAM_NAME": "AP EaZey sEcuRiTy",
     "MOTION_DETECTOR_PIN": set_var_input_validation(
         prompt="Enter the motion sensor's pin's number:",
-        predicate=lambda value: type(value) == int and value >= 1 and value <= 40,
+        is_valid=lambda value: type(value) == int and value >= 1 and value <= 40,
     ),
     "MAIL_SERVER": set_var_input_validation(
         prompt="Enter the mail server's hostname:",
-        predicate=lambda value: type(value) == str
+        is_valid=lambda value: type(value) == str
         and re.match(
             r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~:()\"\"\[\]]{1,}[.][a-zA-Z0-9\[\]]{1,}$", value
         ),
     ),
     "SERVER_PORT": set_var_input_validation(
         prompt="Enter the mail server's PORT number:",
-        predicate=lambda value: type(value) == int,
+        is_valid=lambda value: type(value) == int,
     ),
     "MAIL_USER": set_var_input_validation(
         prompt="Enter your username (email address):",
-        predicate=lambda value: type(value) == str
+        is_valid=lambda value: type(value) == str
         and re.match(
             r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~:()\"\"\[\]]{1,}[@][a-zA-Z0-9.!#$%&'*+-/=?^_`:{|}~()\"\"\[\]]{1,}[.][a-zA-Z0-9\[\]]{1,}$",
             value,
@@ -98,23 +102,23 @@ var = {
     ),
     "MAIL_PWD": set_var_input_validation(
         prompt="Enter your password:",
-        predicate=lambda value: type(value) == str,
+        is_valid=lambda value: type(value) == str,
     ),
     "SENDER_NAME": set_var_input_validation(
         prompt="Enter a custom sender's name:",
-        predicate=lambda value: type(value) == str,
+        is_valid=lambda value: type(value) == str,
     ),
     "MAIL_RECIPIENT": set_var_input_validation(
         prompt="Enter the recipient's email for the alerts:",
-        predicate=lambda value: type(value) == str
+        is_valid=lambda value: type(value) == str
         and re.match(
             r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~:()\"\"\[\]]{1,}[@][a-zA-Z0-9.!#$%&'*+-/=?^_`:{|}~()\"\"\[\]]{1,}[.][a-zA-Z0-9\[\]]{1,}$",
             value,
         ),
     ),
     "TXT_MSG_URL": set_var_input_validation(
-        prompt="Enter your text message URL (get) ending with 'msg=':",
-        predicate=lambda value: type(value) == str and re.match(r".*[=]$", value),
+        prompt="Enter your text message URL (with quotes) ending with 'msg=':",
+        is_valid=lambda value: type(value) == str and re.match(r".*[=]$", value),
     ),
     "MAIL_SUBJECT": "ALERT",
     "MSG": "ALERT!!! MOTION SENSOR HAS DETECTED SOMEONE at {x}!",
