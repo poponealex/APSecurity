@@ -48,9 +48,15 @@ def get_date_time():
 
 
 def input_value_satisfying_condition(
-    prompt, predicate=lambda _: True, failure_description="Value is illegal"
+    prompt,
+    is_valid=lambda _: True,
+    failure_description="Value is illegal",
 ):
     """Validating user input by predicate.
+    
+    Get a string from the user. Try to evaluate it, otherwise keep it as a raw string.
+    If the resulting value satisfies a given condition, return it. Otherwise, rinse and
+    repeat.
 
     Vars:
         - prompt: message displayed when prompting for user input
@@ -62,9 +68,13 @@ def input_value_satisfying_condition(
         - If the predicate fails failure_description is displayed
         - If literal_eval fails an error message containing the raised exception."""
     while True:
+        value = input(prompt)
         try:
-            value = literal_eval(input(prompt))
-            if predicate(value):
+            value = literal_eval(value)
+        except ValueError:
+            pass
+        try:
+            if is_valid(value):
                 return value
             print(f"{Color.FAIL} {failure_description}, try again. {Color.END}")
         except Exception as e:
