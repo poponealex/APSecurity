@@ -6,8 +6,8 @@ import sys, signal, time, json
 import smtplib, ssl
 from urllib.request import urlopen
 from pathlib import Path
-from ast import literal_eval
 from email.message import EmailMessage
+from apsec_config.apsec_lib import *
 
 
 def check_load_config_file():
@@ -35,57 +35,6 @@ def check_load_config_file():
         global var
         with open(file, "r") as f:
             var = json.load(f)
-
-
-def get_date_time():
-    """Current date and time
-
-    Returns:
-        Date and time in the format:
-            Sun Nov  8 16:16:54 2020
-    """
-    return time.ctime(time.time())
-
-
-def input_value_satisfying_condition(
-    prompt, predicate=lambda _: True, failure_description="Value is illegal"
-):
-    """Validating user input by predicate.
-
-    Vars:
-        - prompt: message displayed when prompting for user input
-        - predicate: lambda function to verify a condition
-        - failure_description: message displayed when predicate's condition is not met.
-
-    Returns:
-        - The value entered by the user if predicate's condition is met.
-        - If the predicate fails failure_description is displayed
-        - If literal_eval fails an error message containing the raised exception."""
-    while True:
-        try:
-            value = literal_eval(input(prompt))
-            if predicate(value):
-                return value
-            print(f"{Color.FAIL} {failure_description}, try again. {Color.END}")
-        except Exception as e:
-            print(f"{Color.FAIL}'{e}' raised, try again.{Color.END}")
-
-
-class Color:
-    """ANSI color codes used throughout the program.
-
-    Args:
-        - FAIL: bold red
-        - INFORMATION: bold blue
-        - TITLE: bold cyan
-        - END: end point of the coloration
-    """
-
-    FAIL = "\033[91m\033[1m"
-    INFORMATION = "\033[94m\033[1m"
-    TITLE = "\033[96m\033[1m"
-    END = "\033[0m"
-
 
 class Alerts:
     """Alerts object is the security module that handles notifications and logs.
@@ -190,7 +139,7 @@ def setup():
 
     sec = input_value_satisfying_condition(
         f"{Color.INFORMATION}Delay before starting the security system (in seconds)? {Color.END}",
-        predicate=lambda value: value <= 1800,
+        is_valid=lambda value: value <= 1800,
         failure_description="should be at most 30 mn",
     )
 
