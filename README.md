@@ -2,14 +2,13 @@
 EaZy security system running on Raspberry Pi.
 
 ## Introduction
-AP Security is a simple and ready to go security system. It's aimed at sheer elementary utilisations such as monitoring one room, hence it is not a fully fledged program as it is rather merely a fun dev project.
+AP Security is a simple and ready to go security system. It's aimed at sheer elementary utilisations such as monitoring a single room, hence it is not a fully fledged program as it is rather merely a fun dev project.
 
 ### Prerequisites
 - Raspberry Pi running RPi OS
 - Infrared Motion Sensor
     - Jumper cables to wire the sensor to the RPi.
 - Python 3
-- Infrared Motion Sensor
 - Internet Connectivity
 - Email address
     - It is highly recommended that you use a secondary email address as the sender's email.
