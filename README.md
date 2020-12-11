@@ -1,5 +1,5 @@
 # APSecurity
-EaZy security system running on a Raspberry Pi.
+EaZy security system running on Raspberry Pi.
 
 ## Introduction
 AP Security is a simple and ready to go security system. It's aimed at sheer elementary utilisations such as monitoring one room, hence it is not a fully fledged program as it is rather merely a fun dev project.
