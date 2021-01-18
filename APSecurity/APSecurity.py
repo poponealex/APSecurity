@@ -87,7 +87,7 @@ def send_email(subject="", msg=""):
 
         with smtplib.SMTP_SSL(var["MAIL_SERVER"], var["SERVER_PORT"], context=ssl._create_unverified_context()) as server:
             server.login(var["MAIL_USER"], var["MAIL_PWD"])
-            server.send_message(msg)
+            server.send_message(message)
     except Exception as e:
         log._add_event(type="err", msg=f"EMAIL ERROR: {e}")
 
