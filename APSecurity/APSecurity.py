@@ -90,7 +90,7 @@ def send_email(subject="", msg=""):
             server.send_message(message)
     except Exception as e:
         log._add_event(category="error", msg=f"EMAIL ERROR: {e}")
-        raise Exception("An error occurred while sending an email.")
+        return print(f"{Color.FAIL}An error occurred while sending an email.{Color.END}")
 
 
 def send_text_message(message):
@@ -99,11 +99,11 @@ def send_text_message(message):
         urlopen(url, context=ssl._create_unverified_context())
     except Exception as e:
         log._add_event(category="error", msg=f"TEXT MESSAGE ERROR: {e}")
-        raise Exception("An error occurred while sending a text message.")
+        return print(f"{Color.FAIL}An error occurred while sending a text message.{Color.END}")
 
 def countdown(seconds):
     for s in range(seconds, 0, -1):
-        sys.stdout.write(f" {Color.INFORMATION}{s // 60}:{s % 60}{Color.END} \r")
+        sys.stdout.write(f"\r  {Color.INFORMATION}{s // 60:02d}:{s % 60:02d}{Color.END}  ")
         time.sleep(1)
 
 def run():
@@ -115,14 +115,10 @@ def run():
     There is a 1 hour pause after 10 alerts.
     """
     
-    log = Logging()
-    var = check_load_config_file()
-
     gpio.setmode(gpio.BOARD)
     gpio.setup(var["MOTION_DETECTOR_PIN"], gpio.IN)
 
     print(f"\n\t{Color.TITLE}WELCOME TO {var['PROGRAM_NAME']}{Color.END}\n")
-
     countdown(
         input_value_satisfying_condition(
         f"{Color.INFORMATION}Delay before starting the security system (in seconds)? {Color.END}",
@@ -131,11 +127,11 @@ def run():
     ))
 
     print(f"{Color.INFORMATION}\nSTARTING at {get_date_time()}!{Color.END}\n")
+    start_time = time.time()
 
     alerts_count = 0
     pauses_count = 0
-    start_time = time.time()
-
+    
     while True:
         try:
             if gpio.input(var["MOTION_DETECTOR_PIN"]) == gpio.HIGH:
@@ -171,7 +167,8 @@ def run():
         except Exception as e:
             log._add_event(category="error", msg=e)
             print(f"{Color.FAIL}<{e}> was raised!{Color.END}")
-            pass
 
 if __name__ == "__main__":
+    log = Logging()
+    var = check_load_config_file()
     run()
