@@ -20,7 +20,7 @@ def close(signum="", frame="", process_started=True, message=""):
     if process_started:
         send_text_message("SECURITY SYSTEM is OFF")
         send_email(subject="SECURITY SYSTEM OFF", msg="SECURITY SYSTEM is OFF")
-        log._add_event(type="end")
+        log._add_event(category="end")
         gpio.cleanup()
     sys.exit(0)
 signal.signal(signal.SIGINT, close)
@@ -59,17 +59,17 @@ class Logging:
         with open(self.log, "w") as f:
             f.write(f"\tstarted at: {get_date_time()}\n\n")
 
-    def _add_event(self, type="", nb="", msg=""):
+    def _add_event(self, category="", nb="", msg=""):
         with open(self.log, "a") as f:
-            if type == "a":
+            if category == "alert":
                 f.write(f"{get_date_time()}\nALERT nb: {nb}\n\n")
-            elif type == "p":
+            elif category == "pause":
                 f.write(f"{get_date_time()}\nPAUSE: {nb} {msg}\n\n")
-            elif type == "r":
+            elif category == "resume":
                 f.write(f"{get_date_time()}\nRESUME: {nb} {msg}\n\n")
-            elif type == "end":
+            elif category == "end":
                 f.write(f"\t{get_date_time()}\n\tPROGRAM ENDED\n\n")
-            elif type == "err":
+            elif category == "error":
                 self.err_count += 1
                 f.write(f"{get_date_time()}\nERROR: {self.err_count}\n{msg}\n\n")
             elif msg:
@@ -89,7 +89,8 @@ def send_email(subject="", msg=""):
             server.login(var["MAIL_USER"], var["MAIL_PWD"])
             server.send_message(message)
     except Exception as e:
-        log._add_event(type="err", msg=f"EMAIL ERROR: {e}")
+        log._add_event(category="error", msg=f"EMAIL ERROR: {e}")
+        raise Exception("An error occurred while sending an email.")
 
 
 def send_text_message(message):
@@ -97,38 +98,40 @@ def send_text_message(message):
         url = f"{var['TXT_MSG_URL']}{message.replace(' ', '%20')}"
         urlopen(url, context=ssl._create_unverified_context())
     except Exception as e:
-        log._add_event(type="err", msg=f"TEXT MESSAGE ERROR: {e}")
+        log._add_event(category="error", msg=f"TEXT MESSAGE ERROR: {e}")
+        raise Exception("An error occurred while sending a text message.")
 
-def setup():
-    """Setting up the program.
+def countdown(seconds):
+    for s in range(seconds, 0, -1):
+        sys.stdout.write(f" {Color.INFORMATION}{s // 60}:{s % 60}{Color.END} \r")
+        time.sleep(1)
+
+def run():
+    """Setting up and running the program.
 
     Note that the motion sensor will send HIGH level signals for about 80secs after being wired to the RPi.
+    An email + a text message are sent when the motion sensor is triggered.
+    There is a 2min pause in between each alert.
+    There is a 1 hour pause after 10 alerts.
     """
+    
+    log = Logging()
+    var = check_load_config_file()
+
     gpio.setmode(gpio.BOARD)
     gpio.setup(var["MOTION_DETECTOR_PIN"], gpio.IN)
 
     print(f"\n\t{Color.TITLE}WELCOME TO {var['PROGRAM_NAME']}{Color.END}\n")
 
-    sec = input_value_satisfying_condition(
+    countdown(
+        input_value_satisfying_condition(
         f"{Color.INFORMATION}Delay before starting the security system (in seconds)? {Color.END}",
-        is_valid=lambda value: value <= THIRTY_MINUTES,
+        is_valid=lambda value: 0 <= value <= THIRTY_MINUTES,
         failure_description="should be at most 30 mn",
-    )
-
-    for a in range(sec, -1, -1):
-        sys.stdout.write(f" {Color.INFORMATION}{a}{Color.END} \r")
-        if sec > 0:
-            time.sleep(1)
+    ))
 
     print(f"{Color.INFORMATION}\nSTARTING at {get_date_time()}!{Color.END}\n")
 
-def run():
-    """Running the program.
-
-    An email + a text message are sent when the motion sensor is triggered.
-    There is a 2min pause in between each alert.
-    There is a 1 hour pause after 10 alerts.
-    """
     alerts_count = 0
     pauses_count = 0
     start_time = time.time()
@@ -139,38 +142,36 @@ def run():
                 alerts_count += 1
                 print(f"{Color.INFORMATION}{get_date_time()}{Color.END}")
                 print(f"{Color.FAIL}ALERT nb: {alerts_count}{Color.END}\n")
-                log._add_event(type="a", nb=alerts_count)
+                log._add_event(category="alert", nb=alerts_count)
                 send_text_message(var["MSG"].format(x=get_date_time()))
                 send_email(subject=var["MAIL_SUBJECT"], msg=var["MSG"].format(x=get_date_time()))
                 if alerts_count > MAX_CONSECUTIVE_ALERTS:
                     pauses_count += 1
                     print(f"{Color.INFORMATION}PAUSING..{Color.END}")
-                    log._add_event(type="p", nb=pauses_count)
+                    log._add_event(category="pause", nb=pauses_count)
                     send_text_message(var["MSG_BREAK"].format(x=get_date_time()))
                     send_email(subject="break", msg=var["MSG_BREAK"].format(x=get_date_time()))
                     time.sleep(ONE_HOUR)
                     alerts_count = 0
                     print(f"{Color.INFORMATION}RESUMING..{Color.END}\n")
-                    log._add_event(type="r", nb=pauses_count)
+                    log._add_event(category="resume", nb=pauses_count)
                     send_text_message(var["MSG_RESUME"].format(x=get_date_time()))
                     send_email(subject="resume", msg=var["MSG_RESUME"].format(x=get_date_time()))
                 else:
                     print(f"{Color.INFORMATION}pausing..{Color.END}")
-                    log._add_event(type="p", msg="short 2min pause")
+                    log._add_event(category="pause", msg="short 2min pause")
                     time.sleep(TWO_MINUTES)
                     print(f"{Color.INFORMATION}resuming..{Color.END}\n")
-                    log._add_event(type="p", msg="end of short pause")
+                    log._add_event(category="pause", msg="end of short pause")
 
             if time.time() - start_time > ONE_DAY:
                 alerts_count = 0
                 start_time = time.time()
                 log._add_event(msg=f"start time and alerts' count reseted at {get_date_time()}")
         except Exception as e:
-            log._add_event(type="err", msg=f"{e}")
-            print(f"{Color.INFORMATION}<{e}> was raised!{Color.END}")
+            log._add_event(category="error", msg=e)
+            print(f"{Color.FAIL}<{e}> was raised!{Color.END}")
+            pass
 
 if __name__ == "__main__":
-    log = Logging()
-    var = check_load_config_file()
-    setup()
     run()
