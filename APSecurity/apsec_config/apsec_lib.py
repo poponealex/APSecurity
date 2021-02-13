@@ -1,6 +1,6 @@
 from ast import literal_eval
-import time
-
+import time, sys
+from datetime import datetime
 
 class Color:
     """ANSI COLORS
@@ -33,25 +33,31 @@ def input_value_satisfying_condition(
     Returns the value entered after validation by is_valid.
     """
     while True:
-        value = input(f"{Color.INFORMATION}{prompt}{Color.END}\n")
         try:
-            value = literal_eval(value)
+            value = literal_eval(input(f"{Color.INFORMATION}{prompt}{Color.END}\n"))
         except:
             pass
         try:
             if not is_valid(value):
                 raise Exception(failure_description)
-            if literal_eval(input(f"{Color.INFORMATION}Is this correct: {value} ? enter 1 to confirm, 0 to retry{Color.END}\n")) == 1:
-                return value 
+            if not input(f"{Color.INFORMATION}Is this correct: {value} ? press enter to confirm (enter any value to retry){Color.END} "):
+                return value
         except Exception as e:
             print(f"{Color.FAIL}<{e}> was raised, try again{Color.END}")
 
 
-def get_date_time():
+def get_date_time(log=False):
     """Current date and time
 
-    Returns:
-        Date and time in the format:
-            Sun Nov  8 16:16:54 2020
+    Returns the date and time in the format:
+            13-02-2021 22:13:01
     """
-    return time.ctime(time.time())
+    dt = datetime.now()
+    if log:
+        return f"{dt.day:02d}-{dt.month:02d}-{dt.year}_{dt.hour:02d}_{dt.minute:02d}_{dt.second:02d}"
+    return f"{dt.day:02d}-{dt.month:02d}-{dt.year} {dt.hour:02d}:{dt.minute:02d}:{dt.second:02d}"
+
+def countdown(seconds):
+    for s in range(seconds, 0, -1):
+        sys.stdout.write(f"\r  {Color.INFORMATION}{s // 60:02d}:{s % 60:02d}{Color.END}  ")
+        time.sleep(1)
