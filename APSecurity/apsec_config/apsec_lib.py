@@ -39,12 +39,11 @@ def input_value_satisfying_condition(
         except:
             pass
         try:
-            if not is_valid(value):
-                raise Exception(failure_description)
+            assert is_valid(value)
             if not input(f"{Color.INFORMATION}Is this correct: {value} ? press enter to confirm (enter any value to retry){Color.END} "):
                 return value
-        except Exception as e:
-            print(f"{Color.FAIL}<{e}> was raised, try again{Color.END}")
+        except:
+            print(f"{Color.FAIL}<{failure_description}> was raised, try again{Color.END}\n")
 
 
 def get_date_time(log=False):
@@ -57,6 +56,7 @@ def get_date_time(log=False):
     if log:
         return f"{dt.day:02d}-{dt.month:02d}-{dt.year}_{dt.hour:02d}_{dt.minute:02d}_{dt.second:02d}"
     return f"{dt.day:02d}-{dt.month:02d}-{dt.year} {dt.hour:02d}:{dt.minute:02d}:{dt.second:02d}"
+
 
 def countdown(seconds):
     for s in range(seconds, 0, -1):
