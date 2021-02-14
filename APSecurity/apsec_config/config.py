@@ -7,10 +7,8 @@ from apsec_lib import *
 
 
 def close(signum="", frame=""):
-    print(f"{Color.INFORMATION}QUITTING..{Color.END}\n")
     sys.exit(0)
 signal.signal(signal.SIGINT, close)
-
 
 if Path.cwd().name != "apsec_config":
     print(
@@ -18,7 +16,7 @@ if Path.cwd().name != "apsec_config":
     )
 
 else:
-    print(f"{Color.TITLE}\n\t\tWELCOME to the sEcUrItY CoNfIg fIlE{Color.END}\n\n")
+    print(f"{Color.TITLE}\n\t\tLet's configurate the program first!{Color.END}\n\n")
     var = {
         "PROGRAM_NAME": "AP EaZey sEcuRiTy",
         "MOTION_DETECTOR_PIN": input_value_satisfying_condition(
@@ -73,5 +71,5 @@ else:
     with open("config.json", "w") as f:
         json.dump(var, f)
 
-    print(f"{Color.INFORMATION}\nDONE!\n\n{Color.END}")
+    print(f"{Color.INFORMATION}\nDONE! You're all set!\n{Color.END}")
 close()

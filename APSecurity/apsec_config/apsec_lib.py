@@ -33,8 +33,9 @@ def input_value_satisfying_condition(
     Returns the value entered after validation by is_valid.
     """
     while True:
+        value = input(f"{Color.INFORMATION}{prompt}{Color.END}\n")
         try:
-            value = literal_eval(input(f"{Color.INFORMATION}{prompt}{Color.END}\n"))
+            value = literal_eval(value)
         except:
             pass
         try:

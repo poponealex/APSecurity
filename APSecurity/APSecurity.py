@@ -2,7 +2,7 @@
 # -*-coding:utf-8 -*
 
 import RPi.GPIO as gpio
-import sys, signal, time, json, logging
+import sys, os, signal, time, json, logging
 import smtplib, ssl
 from urllib.request import urlopen
 from pathlib import Path
@@ -27,6 +27,14 @@ def close(signum="", frame="", process_started=True, message=""):
     sys.exit(0)
 signal.signal(signal.SIGINT, close)
 
+def enable_logging():
+    path = Path.cwd() / "logs"
+    log_name = f"log_{get_date_time(log=True)}.log"
+    if not path.exists():
+        path.mkdir()
+    logging.basicConfig(filename=f"{path / log_name}", encoding="utf-8", level=logging.DEBUG, format=LOGGING_FORMAT, datefmt=LOGGING_DATE_FORMAT)
+    logging.info("Logging has started.")
+
 def check_load_config_file():
     """Checking and loading the configuration file.
 
@@ -39,19 +47,14 @@ def check_load_config_file():
         close(process_started=False, message=f"\n{Color.FAIL}Run 'APSecurity.py' from the 'APSecurity' directory.\nCurrent directory: {Path.cwd().name}.{Color.END}")
 
     file_path = Path.cwd() / "apsec_config" / "config.json"
+
     if not file_path.exists():
-        close(process_started=False, message=f"\n{Color.FAIL}Run the config.py script first.{Color.END}") 
+        os.chdir("apsec_config")
+        os.system("python3 config.py")
+        logging.info("config file created")
 
     with open(file_path, "r") as f:
         return json.load(f)
-
-def enable_logging():
-    path = Path.cwd() / "logs"
-    log_name = f"log_{get_date_time(log=True)}.log"
-    if not path.exists():
-        path.mkdir()
-    logging.basicConfig(filename=f"{path / log_name}", encoding="utf-8", level=logging.DEBUG, format=LOGGING_FORMAT, datefmt=LOGGING_DATE_FORMAT)
-    logging.info("Logging has started.")
 
 def send_email(subject="", msg=""):
     try:
