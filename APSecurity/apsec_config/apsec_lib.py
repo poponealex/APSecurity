@@ -61,6 +61,7 @@ def check_load_config_file() -> dict:
     if not file_path.exists():
         os.chdir("apsec_config")
         os.system("python3 config.py")
+        file_path = Path("config.json")
     return json.loads(file_path.read_text())
 
 
