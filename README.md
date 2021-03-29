@@ -1,16 +1,13 @@
 # APSecurity
-Home security system running on a Raspberry Pi.
+Motion detection program triggering alerts. Built to run on a Raspberry Pi.
 
 ## Introduction
-AP Security is a ready to go security system. It's aimed at simple utilisations such as monitoring one room. 
+AP Security is a ready to go "security system" aimed for trivial usages such as monitoring one room.
 
 ### Prerequisites
+- Python 3.6+
 - Raspberry Pi running RPi OS
 - Infrared Motion Sensor
-    - Jumper cables to wire the sensor to the RPi.
-- Python 3
-- Infrared Motion Sensor
-- Internet Connectivity
 - Email address
     - It is highly recommended that you use a secondary email address as the sender's email.
     - It has to support SMTP and SSL.
@@ -24,35 +21,17 @@ AP Security is a ready to go security system. It's aimed at simple utilisations 
 #### Wire the motion sensor to the RPi:
 > - Wire the motion sensor's output pin to any of your RPi's GPIO pin.
 >   - BOARD configuration is used in the program.
->   - For instance if you choose GPIO17, you'll have to enter 11 as the pin's number when running `config.py`
+>   - For instance if you choose GPIO17, you'll have to enter 11 as the pin's number when configuring the program.
 > - Wire the anode (+) to 5Volts.
 > - Wire the cathode (-) to GND.
-
-### Configuration
-Run `config.py` from the `apsec_config` directory.
-> Follow the instructions.
-> ![APSecurity Config](/screenshots/apsec_config.png)
 
 ### Run the program
 Run `APSecurity.py` from the parent directory `APSecurity`.
 > Follow the instructions.
+> ![APSecurity Config](/screenshots/apsec_config.png)
 > ![APSecurity](/screenshots/apsec_run.png)
 
 ## Errors handling
-### You didn't run the `config.py` script
-> This error will be raised if you try to run `APSecurity.py`.
-> ![APSecurity configuration error](/screenshots/err_notConfig.png)
-
-__The obvious fix is to run `config.py` (from the `apsec_config` directory).__
-
-### You're trying to run `config.py` from somehere else than `/APSecurity/apsec_config`
-> This error will be raised if you try to run `config.py` from somehere else than `/APSecurity/apsec_config`.
-> ![APSecurity wrong dir config](/screenshots/err_dir_config.png)
-
-__The obvious fix is to run `config.py` from the `apsec_config` directory.__
-
-### You're trying to run `APSecurity.py` from somehere else than the `APSecurity` directory
+### You're trying to run `APSecurity.py` from elsewhere than the `APSecurity` directory
 > This error will be raised if you try to run `APSecurity.py` from somehere else than `/APSecurity`.
 > ![APSecurity wrong dir config](/screenshots/err_dir_apsec.png)
-
-__The obvious fix is to run `APSecurity.py` from the `APSecurity` directory.__
