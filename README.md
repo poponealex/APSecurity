@@ -1,4 +1,4 @@
-# APSecurity
+![Logo](/misc/logo.png)
 Motion detection program triggering alerts. Built to run on a Raspberry Pi.
 
 ## Introduction
@@ -28,10 +28,10 @@ AP Security is a ready to go "security system" aimed for trivial usages such as 
 ### Run the program
 Run `APSecurity.py` from the parent directory `APSecurity`.
 > Follow the instructions.
-> ![APSecurity Config](/screenshots/apsec_config.png)
-> ![APSecurity](/screenshots/apsec_run.png)
+> ![APSecurity Config](/misc/apsec_config.png)
+> ![APSecurity](/misc/apsec_run.png)
 
 ## Errors handling
 ### You're trying to run `APSecurity.py` from elsewhere than the `APSecurity` directory
 > This error will be raised if you try to run `APSecurity.py` from somehere else than `/APSecurity`.
-> ![APSecurity wrong dir config](/screenshots/err_dir_apsec.png)
+> ![APSecurity wrong dir config](/misc/err_dir_apsec.png)
